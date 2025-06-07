@@ -24,7 +24,7 @@ class Sidebar(QWidget):
 
         # Добавляем логотип
         logo_label = QLabel()
-        logo_pixmap = QPixmap("app/ui/assets/logo.png")  # TODO: Добавить логотип
+        logo_pixmap = QPixmap("app/ui/assets/logo.png")
         if not logo_pixmap.isNull():
             logo_label.setPixmap(logo_pixmap.scaled(200, 100, Qt.AspectRatioMode.KeepAspectRatio))
         else:
