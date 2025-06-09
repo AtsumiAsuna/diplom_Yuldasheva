@@ -58,7 +58,7 @@ python main.py
 
 2. Соберите приложение:
    ```bash
-   pyinstaller gushub.spec
+   pyinstaller main.spec
    ```
 
 3. Готовый exe-файл появится в папке `dist`.

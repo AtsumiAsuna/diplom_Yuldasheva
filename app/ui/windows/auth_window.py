@@ -9,7 +9,7 @@ from app.ui.windows.main_window import MainWindow
 class AuthWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Gushub - Авторизация")
+        self.setWindowTitle("Авторизация")
         self.setFixedSize(400, 300)
         
         # Создаем центральный виджет и layout

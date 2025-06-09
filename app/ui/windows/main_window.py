@@ -12,7 +12,7 @@ from app.ui.pages.analytics_page import AnalyticsPage
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Gushub")
+        self.setWindowTitle("Окно преподавателя")
         self.setMinimumSize(1200, 800)
         
         # Создаем центральный виджет
