@@ -6,28 +6,24 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('venv/Lib/site-packages/transliterate/contrib/languages', 'transliterate/contrib/languages')],
     hiddenimports=['PyQt6.QtCore', 'PyQt6.QtGui', 'PyQt6.QtWidgets'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
-    win_no_prefer_redirects=False,
-    win_private_assemblies=False,
-    cipher=block_cipher,
     noarchive=False,
+    optimize=0,
 )
-
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
     a.scripts,
     a.binaries,
-    a.zipfiles,
     a.datas,
     [],
-    name='Gushub',
+    name='Окно преподавателя',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -41,4 +37,4 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
     icon='app/ui/assets/icon.ico'
-) 
+)
