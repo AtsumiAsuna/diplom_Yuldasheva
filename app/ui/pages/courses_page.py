@@ -94,11 +94,7 @@ class CoursesPage(QWidget):
                     # Проверяем, существует ли уже курс с таким названием
                     existing_courses = self.db.get_courses()
                     if any(course['title'].lower() == title.lower() for course in existing_courses):
-                        QMessageBox.warning(
-                            self,
-                            "Предупреждение",
-                            "Курс с таким названием уже существует"
-                        )
+                        QMessageBox.warning(self,"Предупреждение","Курс с таким названием уже существует")
                         return
                     
                     # Создаем репозиторий на GitHub
@@ -128,18 +124,10 @@ class CoursesPage(QWidget):
                     self.tree_update_needed.emit()
                     
                     # Показываем сообщение об успешном создании
-                    QMessageBox.information(
-                        self,
-                        "Успех",
-                        f"Курс '{title}' успешно создан"
-                    )
+                    QMessageBox.information(self,"Успех",f"Курс '{title}' успешно создан")
                     
                 except Exception as e:
-                    QMessageBox.critical(
-                        self,
-                        "Ошибка",
-                        f"Не удалось создать курс: {str(e)}"
-                    )
+                    QMessageBox.critical(self,"Ошибка",f"Не удалось создать курс: {str(e)}")
     
     def delete_course(self):
         """Удаление текущего курса"""
@@ -179,18 +167,10 @@ class CoursesPage(QWidget):
                 self.tree_update_needed.emit()
                 
                 # Показываем сообщение об успешном удалении
-                QMessageBox.information(
-                    self,
-                    "Успех",
-                    f"Курс '{course['title']}' успешно удален"
-                )
+                QMessageBox.information(self,"Успех",f"Курс '{course['title']}' успешно удален")
                 
             except Exception as e:
-                QMessageBox.critical(
-                    self,
-                    "Ошибка",
-                    f"Не удалось удалить курс: {str(e)}"
-                )
+                QMessageBox.critical(self,"Ошибка",f"Не удалось удалить курс: {str(e)}")
     
     def create_module(self):
         """Создание нового модуля для текущего курса"""

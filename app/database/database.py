@@ -4,6 +4,7 @@ import os
 import sys
 from PyQt6.QtWidgets import QMessageBox
 
+"""Класс базы данных"""
 
 class Database:
     def __init__(self):
@@ -15,17 +16,30 @@ class Database:
                 database='diplom_gushub',
                 charset='utf8mb4'
             )
-            # Устанавливаем курсор, который возвращает словари
             self.conn.cursorclass = MySQLdb.cursors.DictCursor
         except MySQLdb.Error as e:
-            QMessageBox.critical(None, "Database Error", f"Could not connect to database: {e}")
-            sys.exit(1)
+            QMessageBox.critical(self, "Ошибка", f"Не удалось подключиться к базе данных: {e}")
+
+    def ensure_connection(self):
+        """Проверяет и обновляет соединение с базой данных"""
+        try:
+            self.conn = MySQLdb.connect(
+                host='localhost',
+                user='root',
+                password='',
+                database='diplom_gushub',
+                charset='utf8mb4'
+            )
+            self.conn.cursorclass = MySQLdb.cursors.DictCursor
+        except MySQLdb.Error as e:
+            QMessageBox.critical(self, "Ошибка", f"Не удалось подключиться к базе данных: {e}")
 
     # --- Курсы ---
-    def add_course(self, github_path: str, title: str, description: str | None = None,
+    def add_course(self, github_path: str | None, title: str | None, description: str | None = None,
                    site_id: int | None = None) -> int:
         """Добавление курса в базу данных"""
         try:
+            self.ensure_connection()
             with self.conn.cursor() as cursor:
                 cursor.execute('''
                     INSERT INTO courses (github_path, title, description, site_id)
@@ -35,7 +49,7 @@ class Database:
                 return cursor.lastrowid
         except MySQLdb.Error as e:
             self.conn.rollback()
-            QMessageBox.critical(None, "Database Error", f"Error adding course: {e}")
+            QMessageBox.critical(None, "Ошибка", f"Ошибка в добавлении курса: {e}")
             return -1
 
     def get_course(self, course_id: int) -> Optional[Dict[str, object]]:
@@ -53,13 +67,12 @@ class Database:
     def get_courses(self) -> List[Dict[str, object]]:
         """Получение всех курсов"""
         try:
+            self.ensure_connection()
             with self.conn.cursor() as cursor:
-                cursor.execute('''
-                    SELECT * FROM courses ORDER BY title
-                ''')
+                cursor.execute('SELECT * FROM courses ORDER BY id DESC')
                 return cursor.fetchall()
         except MySQLdb.Error as e:
-            QMessageBox.critical(None, "Database Error", f"Error getting courses: {e}")
+            QMessageBox.critical(None, "Ошибка", f"Ошибка при получении курсов: {e}")
             return []
 
     def delete_course(self, course_id: int) -> bool:

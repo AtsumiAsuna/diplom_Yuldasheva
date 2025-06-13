@@ -73,6 +73,39 @@ class AppSettings:
     def set_gushub_token(self, token: str) -> None:
         self.settings.setValue("gushub/token", token)
 
+    # Database settings
+    def get_database_host(self) -> str:
+        return self.settings.value("database/host", "localhost")
+
+    def set_database_host(self, host: str) -> None:
+        self.settings.setValue("database/host", host)
+
+    def get_database_user(self) -> str:
+        return self.settings.value("database/user", "root")
+
+    def set_database_user(self, user: str) -> None:
+        self.settings.setValue("database/user", user)
+
+    def get_database_password(self) -> str:
+        return self.settings.value("database/password", "")
+
+    def set_database_password(self, password: str) -> None:
+        self.settings.setValue("database/password", password)
+
+    def get_database_name(self) -> str:
+        return self.settings.value("database/name", "diplom_gushub")
+
+    def set_database_name(self, name: str) -> None:
+        self.settings.setValue("database/name", name)
+
+    def get_database_settings(self) -> dict:
+        return {
+            "host": self.get_database_host(),
+            "user": self.get_database_user(),
+            "password": self.get_database_password(),
+            "database": self.get_database_name()
+        }
+
     # Очистка (если нужно)
     def clear(self) -> None:
         self.settings.clear()

@@ -12,16 +12,13 @@ def main():
     app.setWindowIcon(QIcon("app/ui/assets/icon.ico"))
     apply_stylesheet(app, theme="light_red.xml")
     
-    # Проверяем, авторизован ли пользователь
+    """Проверяем, авторизован ли пользователь"""
     settings = AppSettings()
     
     if settings.is_fully_configured():
-        # Если авторизован, показываем главное окн
-        # о
         window = MainWindow()
         window.show()
     else:
-        # Если не авторизован, показываем окно авторизации
         auth_window = AuthWindow()
         auth_window.show()
     

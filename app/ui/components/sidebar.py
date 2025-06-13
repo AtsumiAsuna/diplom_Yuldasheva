@@ -38,9 +38,20 @@ class Sidebar(QWidget):
 
         # Создаем древовидное представление
         self.tree_view = QTreeView()
-        self.tree_view.setModel(self._create_courses_model())
+        
+        # Дополнительные настройки для QTreeView
+        self.tree_view.setHeaderHidden(True)  # Скрываем заголовок
+        self.tree_view.setAnimated(True)  # Включаем анимацию
+        self.tree_view.setIndentation(20)  # Устанавливаем отступ для вложенных элементов
+        self.tree_view.setUniformRowHeights(True)  # Оптимизация производительности
+        self.tree_view.setAlternatingRowColors(True)  # Чередующиеся цвета строк
+        
+        # Устанавливаем модель и раскрываем все элементы
+        initial_model = self._create_courses_model()
+        self.tree_view.setModel(initial_model)
+        self.tree_view.expandAll()
+        
         self.tree_view.clicked.connect(self._handle_item_click)
-        self.tree_view.expandAll()  # Раскрываем все элементы по умолчанию
 
         # Настройки для корректной работы прокрутки
         self.tree_view.setVerticalScrollMode(QTreeView.ScrollMode.ScrollPerPixel)  # Плавная прокрутка
@@ -52,7 +63,7 @@ class Sidebar(QWidget):
                                      QSizePolicy.Policy.Expanding)  # Растягивание по вертикали
 
         layout.addWidget(self.tree_view)
-
+        
         # Добавляем отступ перед кнопками
         layout.addSpacing(20)
 
@@ -107,7 +118,7 @@ class Sidebar(QWidget):
                 module_item.setData(("module", module['id']))
 
                 # Получаем уроки для модуля
-                lessons = self.db.get_lessons_by_modue(module['id'])
+                lessons = self.db.get_lessons_by_module(module['id'])
 
                 for lesson in lessons:
                     # Создаем элемент урока
@@ -135,8 +146,15 @@ class Sidebar(QWidget):
 
     def refresh(self):
         """Обновление дерева"""
-        self.tree_view.setModel(self._create_courses_model())
+        # Создаем новую модель
+        model = self._create_courses_model()
+        # Устанавливаем модель
+        self.tree_view.setModel(model)
+        # Раскрываем все элементы
         self.tree_view.expandAll()
+        # Принудительно обновляем виджет
+        self.tree_view.update()
+        self.tree_view.repaint()
 
     def handle_settings_click(self):
         """Обработка клика по кнопке настроек"""
